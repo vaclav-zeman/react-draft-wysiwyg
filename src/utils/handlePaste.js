@@ -1,9 +1,13 @@
 import { getSelectedBlock } from 'draftjs-utils';
-import { Modifier, EditorState, ContentState } from 'draft-js';
+import { Modifier, EditorState } from 'draft-js';
 import htmlToDraft from 'html-to-draftjs';
 import { OrderedMap } from 'immutable';
 
-export const handlePastedText = (text, html, editorState, onChange) => {
+export const handlePastedText = (text, html, editorState, onChange, stripPastedStyles = false) => {
+  if (stripPastedStyles === true) {
+    return false
+  }
+
   const selectedBlock = getSelectedBlock(editorState);
   if (selectedBlock && selectedBlock.type === 'code') {
     const contentState = Modifier.replaceText(
